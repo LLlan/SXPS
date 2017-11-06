@@ -1,0 +1,42 @@
+.contentDiv{
+    width:100%;
+    margin-top:62px;
+}
+.contentDiv>p{
+    width:100%;
+    height:56px;
+    line-height: 56px;
+    background-color: #fff;
+    margin-top:12px;
+    border-bottom: 1px solid #a5a5a5;
+    padding:0 3%;
+    font-size: 16px;
+    color:#333;
+}
+.contentDiv>p>a{
+    float: right;
+    color: #0284fb;
+    font-size: 16px;
+}
+.weixin{
+    width:100%;
+    height:60px;
+    background-color:#fff;
+    border-bottom: 1px solid #a5a5a5;
+    padding:0 3%;
+    margin-top:12px;
+    padding-top:10px;
+}
+.weixin>p:nth-child(1){
+    color:#333;
+    font-size: 16px;
+    height:16px;
+    line-height: 16px;
+}
+.weixin>p:nth-child(2){
+    color:#acacac;
+    font-size: 14px;
+    height:14px;
+    line-height: 14px;
+    margin-top:5px;
+}

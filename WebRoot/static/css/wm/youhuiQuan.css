@@ -1,0 +1,102 @@
+.contentDiv{
+    margin-top:50px;
+}
+.content{
+    width:94%;
+    margin:0 auto;
+    padding-top:10px;
+}
+.bangzhu{
+    width:100%;
+    height:44px;
+    line-height: 44px;
+    color:#333;
+    background-color: #fff;
+    border:1px solid #dcdcdc;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+.youhuiquan{
+    width:100%;
+    height:86px;
+    border-radius: 10px;
+    background-color:#e7f1fb;
+    margin-top:20px;
+}
+.quanLeft{
+    width:21.7%;
+    height:76px;
+    background-color:#fff;
+    border-radius: 10px;
+    border:1px solid #dcdcdc;
+    float:left;
+    margin-top:-10px;
+}
+.quanRight{
+    width:78.3%;
+    height:76px;
+    background-color:#fff;
+    border-radius: 10px;
+    border:1px solid #dcdcdc;
+    float:left;
+    border-left:none;
+    margin-top:-10px;
+}
+.youhuiquan>p{
+    width:100%;
+    height:20px;
+    line-height: 20px;
+    color:#ffad00;
+    font-size: 13px;
+    padding:0 3%;
+}
+.quanLeft>p{
+    width:100%;
+    text-align: center;
+    color:#0284fb;
+    font-size: 13px;
+}
+.quanLeft>p:nth-child(1){
+    margin-top:6px;
+    font-size: 12px;
+}
+.quanLeft>p:nth-child(1)>span:nth-child(2){
+    font-size: 24px;
+}
+.quanLeft>p:nth-child(2){
+    font-size: 12px;
+    height:12px;
+    line-height: 12px;
+}
+.quanRight>p:nth-child(1){
+    width:100%;
+    height:18px;
+    line-height: 18px;
+    font-size: 18px;
+    color:#333;
+    padding:0 5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top:15px;
+
+}
+.quanRight>p:nth-child(2){
+    width:100%;
+    height:12px;
+    line-height: 12px;
+    font-size: 12px;
+    color:#999;
+    padding:0 5%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top:10px;
+}
+.quanRight>p:nth-child(2)>span{
+    margin-left:10px;
+}
+.quanRight>p:nth-child(2)>span:nth-child(1){
+    margin-left:0;
+}

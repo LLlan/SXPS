@@ -1,0 +1,1467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kehuMapper">
+	<!-- 查询用户管理列表分页  -->
+	<select id="UserKehulistPage" parameterType="page" resultType="pd">
+			select 
+				t1.user_kehu_id,
+				t1.headImg,
+				t1.userName,
+				t1.phone,
+				t1.registerTime,
+				t1.last_login_time
+			from tb_user_kehu t1 
+			<where>
+			 	<if test="pd.searchName!=null and pd.searchName!=''">
+			 		t1.userName LIKE CONCAT(CONCAT('%', #{pd.searchName}),'%')
+			 	</if>
+		 	</where>
+			order by t1.last_login_time desc
+	</select>
+	
+	
+	<!-- 根据ID获取用户信息 -->
+	<select id="getUserDataByID" parameterType="pd" resultType="pd">
+		SELECT 
+			t1.*
+			FROM tb_user_kehu t1
+		WHERE
+			t1.user_kehu_id = #{user_kehu_id}
+	</select>
+	
+	
+	<!-- 根据登录名和密码获取对象信息 -->
+	<select id="getDataByPhoneAndPassWord" parameterType="pd" resultType="pd">
+		SELECT 
+			t1.user_kehu_id
+		FROM tb_user_kehu t1
+	where phone = #{phone} and loginPassword = #{loginPassword}
+	</select>
+	
+	<!-- 每次登录成功后更新最新登录时间以及登录的IP地址 -->
+	<update id="updateIpAndTime" parameterType="pd">
+		UPDATE tb_user_kehu tus
+		SET 
+			tus.last_login_time = #{last_login_time},
+			tus.ip = #{ip}
+		WHERE
+			tus.user_kehu_id = #{user_kehu_id}
+	</update>
+	
+	
+	<!-- 新增客户端用户 -->
+	<insert id="saveKeHuUser" parameterType="pd">
+		insert into tb_user_kehu (
+			user_kehu_id,
+			phone,
+			loginPassword,
+			headImg,
+			payPassword,
+			userName,
+			registerTime,
+			last_login_time,
+			ip,
+			status,
+			bz
+		) values (
+			#{user_kehu_id},
+			#{phone},
+			#{loginPassword},
+			#{headImg},
+			#{payPassword},
+			#{userName},
+			#{registerTime},
+			#{last_login_time},
+			#{ip},
+			#{status},
+			#{bz}
+		)
+	</insert>
+	
+	<!-- 注册时验证用户是否存在 -->
+	<select id="getUserDataByPhone" parameterType="pd" resultType="pd">
+			select * from tb_user_kehu  
+			where phone = #{phone}
+	</select>
+	
+	<!-- 更新登录时间 -->
+	<update id="updateLastLogin" parameterType="pd">
+		update tb_user_kehu set
+		last_login_time = #{last_login_time} 
+		where phone = #{phone}
+		</update>
+	<!-- 
+		根据用户名判断该用户名是否已经存在 
+	-->
+	<select id="getDataByUserName" parameterType="pd" resultType="pd">
+		SELECT
+			userName
+		FROM tb_user_kehu
+		WHERE 
+			userName=#{userName}
+	</select>
+	<!--  
+		每次登录时,更新登录时间和IP
+	-->
+	<update id="updateLoginTimeAndIp" parameterType="pd">
+		UPDATE tb_user_kehu tuk
+		SET
+			tuk.last_login_time=#{last_login_time},
+			tuk.ip=#{ip}
+		WHERE
+			tuk.user_kehu_id=#{user_kehu_id}
+			
+	</update>
+	<!-- 新增起手端用户头像昵称 -->
+	<insert id="saveqs" parameterType="pd">
+		insert into tb_user_qishou (
+			headImg,
+			userName
+		) values (
+			#{headImg},
+			#{userName}
+		)
+	</insert>
+	
+	<!-- 登录时判断手机号和密码 -->
+	<select id="selectTouXiang" parameterType="pd" resultType="pd">
+			select * from tb_user_qishou  qs
+			where qs.phone = #{phone}
+	</select>
+	<!--  
+		更新用户手机号码 或 用户名 或 头像
+	-->
+	<update id="updateUserData" parameterType="pd">
+		UPDATE tb_user_kehu tuk
+		<set>
+			<if test="phone!='' and phone!=null">
+			tuk.phone=#{phone}
+			</if>
+			<if test="userName!='' and userName!=null">
+			tuk.userName=#{userName}
+			</if>
+			<if test="headImg!='' and headImg!=null">
+			tuk.headImg=#{headImg}
+			</if>
+		</set>
+		WHERE
+			tuk.user_kehu_id=#{user_kehu_id}
+	</update>
+	
+	<!-- 根据手机号修改登录密码 -->
+	<update id="updatePasswordByPhone" parameterType="pd">
+		UPDATE tb_user_kehu t1
+		SET 
+			t1.loginPassword = #{loginPassword}
+		WHERE
+			t1.phone = #{phone}
+	</update>
+	
+	<!--上传与修改保存头像-->
+	<update id="touxiang" parameterType="pd">
+		update
+			tb_user_kehu set headImg =#{imgFile}
+				where user_kehu_id =#{user_kehu_id}
+	</update>
+	
+	<select id="selectbyphone" parameterType="pd" resultType="pd">
+		select * from tb_user_kehu  uk 
+		where  uk.phone = #{phone1}
+	</select>
+	
+	<select id="selectbyphone1" parameterType="pd" resultType="pd">
+		select * from tb_cache_user_kehu  uk 
+		where  uk.phone = #{phone}
+	
+	</select>
+	
+	<!--修改用户名-->
+	<update id="saveyonghuming" parameterType="pd">
+		update
+			tb_user_kehu set userName =#{userName}
+				where user_kehu_id =#{user_kehu_id}
+	</update>
+	
+	<!-- 执行同城呼叫 -->
+	<insert id="savetongchengCar" parameterType="pd">
+		insert into tb_information_tongcheng (
+			information_tongcheng_id,
+			departurePlace,
+			destination,
+			latitude_longitude_start,
+			latitude_longitude_end,
+			about_Amount,
+			create_time,
+			hujiao_status,
+			user_kehu_fid
+		) values (
+			#{information_tongcheng_id},
+			#{departurePlace},
+			#{destination},
+			#{latitude_longitude_start},
+			#{latitude_longitude_end},
+			#{about_Amount},
+			#{create_time},
+			#{hujiao_status},
+			#{user_kehu_fid}
+		)
+	</insert>
+	
+	<!-- 根据id查询一条同城信息大约金额 -->
+	<select id="getTongchengCar" parameterType="pd" resultType="pd">
+		SELECT
+			t1.information_tongcheng_id,
+			t1.departurePlace,
+			t1.destination,
+			t1.latitude_longitude_start,
+			t1.latitude_longitude_end,
+			t1.about_Amount,
+			t2.about_Amount,
+			t2.radeAmount,
+			t1.user_kehu_fid,
+			t1.hujiao_status,
+			t2.order_tongcheng_status,
+			t2.order_tongcheng_id
+		FROM
+			tb_information_tongcheng t1
+		LEFT JOIN  tb_order_tongcheng t2 ON t1.information_tongcheng_id = t2.information_tongcheng_id
+		WHERE
+			t1.information_tongcheng_id = #{information_tongcheng_id}
+	</select>
+	
+	<!-- 执行取消呼叫同城订单 -->
+	<delete id="SetorderStatus" parameterType="pd">
+		delete tb_order_tongcheng from tb_order_tongcheng
+		where 
+			information_tongcheng_id =#{information_tongcheng_id} AND order_tongcheng_status = '1'
+	</delete>
+	
+	<!-- 执行取消呼叫已接驾同城订单 -->
+	<delete id="deleteSetorderStatus" parameterType="pd">
+		delete tb_order_tongcheng from tb_order_tongcheng
+		where 
+			information_tongcheng_id =#{information_tongcheng_id} AND order_tongcheng_status = '4'
+	</delete>
+	
+	<!-- 执行删除呼叫同城信息被抢了-->
+	<delete id="DeletehujiaoStatusTow" parameterType="pd">
+		delete from tb_information_tongcheng where information_tongcheng_id = #{information_tongcheng_id} AND hujiao_status='2'
+	</delete>
+	
+	<!-- 执行删除呼叫同城信息 -->
+	<delete id="cancelTongchenghujiaoDelete" parameterType="pd">
+		delete from tb_information_tongcheng where information_tongcheng_id = #{information_tongcheng_id} AND hujiao_status=#{hujiao_status}
+	</delete>
+	
+	<!-- 查询电话号码是否重复，即该用户是否注册过 -->
+	<select id="findByPhone" parameterType="pd" resultType="pd">
+		select phone from tb_user_kehu  
+		where  phone = #{phone}
+	</select>
+	
+	<!-- 换绑新手机号 -->
+	<update id="updatephone" parameterType="pd">
+		update
+			tb_user_kehu set phone =#{phone}
+				where user_kehu_id =#{user_kehu_id}
+	</update>
+	
+	<!-- 设置支付密码-->
+	<update id="updatepayPassword" parameterType="pd">
+		update
+			tb_user_kehu set payPassword =#{payPassword}
+				where user_kehu_id =#{user_kehu_id}
+	</update>
+	
+	
+	
+	<!-- 美食外卖商家列表  
+		1.主页的猜你喜欢
+		2.主页点击美食外卖的子页面
+	-->
+	<select id="businessList" parameterType="pd" resultType="pd">
+				<!-- select tus.*, 
+					ifnull(t2.man_num,'')man_num,
+					ifnull(t2.jian_num,'')jian_num
+				from 
+				tb_user_shangjia tus 
+					inner join tb_goods_category tgc on tgc.user_shangjia_fid = tus.user_shangjia_id
+					left join (
+						SELECT
+							GROUP_CONCAT(tm.man_num ORDER BY tm.man_num ASC) man_num,
+							GROUP_CONCAT(tm.jian_num ORDER BY tm.jian_num ASC) jian_num,
+							tm.user_shangjia_fid
+						FROM
+							(
+								SELECT
+									CAST(tbm.man_num AS SIGNED) man_num,
+									CAST(tbm.jian_num AS SIGNED) jian_num,
+									tbm.mjyh_id,
+									tbm.user_shangjia_fid,
+									tbm.mjyh_state
+								FROM
+									tb_mjyh tbm
+							) tm
+						WHERE
+							tm.mjyh_state = 1
+						GROUP BY
+							tm.user_shangjia_fid
+					)t2 on t2.user_shangjia_fid = tus.user_shangjia_id
+					inner join tb_mokuai tm on tm.mokuai_id= tgc.mokuai_fid
+				<where>
+					tus.authenticationState=1
+					<if test="mkID!=null and mkID!=''">
+						and tm.mokuai_id=#{mkID}
+					</if>
+				</where>
+				GROUP BY tus.user_shangjia_id -->
+				
+				SELECT
+					tus.*, ifnull(t2.man_num, '') man_num,
+					ifnull(t2.jian_num, '') jian_num,
+					IFNULL(tb1.pscore,0) pscore,
+					IFNULL(tb2.xsNum,0) xsNum,
+					tgc.mokuai_fid mkID,
+					tbf.cost psf
+				FROM
+					tb_user_shangjia tus
+				INNER JOIN tb_goods_category tgc ON tgc.user_shangjia_fid = tus.user_shangjia_id
+				LEFT JOIN (
+					SELECT
+						GROUP_CONCAT(
+							tm.man_num
+							ORDER BY
+								tm.man_num ASC
+						) man_num,
+						GROUP_CONCAT(
+							tm.jian_num
+							ORDER BY
+								tm.jian_num ASC
+						) jian_num,
+						tm.user_shangjia_fid
+					FROM
+						(
+							SELECT
+								CAST(tbm.man_num AS SIGNED) man_num,
+								CAST(tbm.jian_num AS SIGNED) jian_num,
+								tbm.mjyh_id,
+								tbm.user_shangjia_fid,
+								tbm.mjyh_state
+							FROM
+								tb_mjyh tbm
+						) tm
+					WHERE
+						tm.mjyh_state = 1
+					GROUP BY
+						tm.user_shangjia_fid
+				) t2 ON t2.user_shangjia_fid = tus.user_shangjia_id
+				INNER JOIN tb_mokuai tm ON tm.mokuai_id = tgc.mokuai_fid
+				LEFT JOIN (
+					SELECT
+						COUNT(tbe.user_shangjia_fid) plnum,
+						tbe.user_shangjia_fid,
+						tbe.type,
+						tbe.category,
+						SUM(tbe.score) zscore,
+						ROUND((SUM(tbe.score)/COUNT(tbe.user_shangjia_fid)),1) pscore
+					FROM tb_evaluate tbe
+					WHERE tbe.type=1 and tbe.category=1
+					GROUP BY tbe.user_shangjia_fid
+				)tb1 ON tb1.user_shangjia_fid=tus.user_shangjia_id
+				LEFT JOIN (
+					SELECT
+						tot.user_shangjia_fid,
+						IFNULL(SUM(xsNum),0) xsNum
+					FROM tb_order_takeou tot
+					LEFT JOIN (
+						SELECT
+							tog.goodsNum,
+							SUM(tog.goodsNum) xsNum,
+							tog.takeout_order_fid
+						FROM tb_order_goods tog
+						GROUP BY tog.takeout_order_fid
+					)t1 ON t1.takeout_order_fid=tot.order_takeou_id
+					GROUP BY tot.user_shangjia_fid
+				)tb2 ON tb2.user_shangjia_fid=tus.user_shangjia_id
+				INNER JOIN (
+					SELECT
+						*
+					FROM tb_freight 
+					WHERE
+						distance1=0
+				)tbf ON tbf.user_shangjia_fid=tus.user_shangjia_id
+				<where>
+					tus.authenticationState=1 and tus.isOpen=1
+					<if test="mkID!=null and mkID!=''">
+						and tm.mokuai_id=#{mkID}
+					</if>
+					<if test="mkID==null or mkID==''">
+						and tm.mokuai_id='ae5d2c4aba824dd0a9d57abf8694a6ed'
+					</if>
+					<if test="searchName!='' and searchName!=null">
+						and tus.shopName LIKE CONCAT(CONCAT('%', #{searchName}),'%')
+					</if>
+				</where>
+				GROUP BY
+					tus.user_shangjia_id
+				<if test="type=='1'">
+					ORDER BY tb1.pscore,tb2.xsNum DESC
+				</if>
+				<if test="type=='2'">
+					ORDER BY tb2.xsNum DESC
+				</if>
+				<!-- ORDER BY tb1.pscore DESC -->
+				
+	</select>
+	
+	<!-- 商家码表类型 -->
+	<select id="goodsCategoryList" parameterType="pd" resultType="pd">
+		SELECT
+			t1.goods_category_id,
+			t1.user_shangjia_fid,
+			t1.categoryName
+		FROM
+			tb_goods_category t1
+		inner join tb_goods tg on tg.goods_category_fid = t1.goods_category_id
+		WHERE
+			t1.user_shangjia_fid = #{user_shangjia_id}
+			 and mokuai_fid=#{mkID}
+		order by t1.addTime desc
+	</select>
+	
+	<!-- 商家商品列表 -->
+	<select id="goodsList" parameterType="pd" resultType="pd">
+		SELECT
+			t1.goods_id,
+			t1.goodsName,
+			t1.goodsImg,
+			t1.categoryName,
+			t1.presentPrice,
+			t1.canhefei,
+			t1.originalPrice,
+			t1.user_shangjia_fid
+		FROM
+			tb_goods t1
+		WHERE
+			t1.user_shangjia_fid = #{user_shangjia_id}
+		order by t1.fabuTime desc
+	</select>
+	
+	<!--  根据商品分类名字和商家id查出列表数据  -->
+	<select id="getDataByCategoryNameAndId" parameterType="pd" resultType="pd">
+			SELECT
+			t1.goods_id,
+			t1.goodsName,
+			t1.goodsImg,
+			t1.presentPrice,
+			t1.canhefei,
+			t1.originalPrice,
+			t1.user_shangjia_fid,
+			t1.goods_category_fid,
+			t1.goodsIntroduce,
+			tgg.categoryName,
+			t1.goodsState,
+			IFNULL(t2.num,0) num,
+			IFNULL(tth.goodsNum, '0') goodsNum,
+			IFNULL(t3.goodsNums, '0') goodsNums
+		FROM
+			tb_goods t1
+			left join tb_goods_category tgg on tgg.goods_category_id = t1.goods_category_fid
+			LEFT JOIN (
+				SELECT
+					tog.goods_fid,
+					COUNT(tog.goods_fid) num
+				FROM
+					tb_order_goods tog
+				GROUP BY tog.goods_fid
+			) t2 ON t2.goods_fid=t1.goods_id
+			LEFT JOIN (
+			SELECT
+				tog.goods_fid,
+				SUM(tog.goodsNum) goodsNum
+			FROM
+				tb_order_takeou tot
+			LEFT JOIN tb_order_goods tog ON tog.takeout_order_fid = tot.order_takeou_id
+			WHERE
+				tot.orderTime LIKE CONCAT(CONCAT('%',#{currentMonth}),'%')
+			AND tot.orderStateShangjia = '5'
+			GROUP BY
+				tog.goods_fid
+			) tth ON tth.goods_fid = t1.goods_id
+			LEFT JOIN (
+			SELECT
+				tog.goods_fid,
+				SUM(tog.goodsNum) goodsNums
+			FROM
+				tb_order_takeou tot
+			LEFT JOIN tb_order_goods tog ON tog.takeout_order_fid = tot.order_takeou_id
+			WHERE
+				 tot.orderStateShangjia = '5'
+			GROUP BY
+				tog.goods_fid
+			) t3 ON t3.goods_fid = t1.goods_id
+		WHERE
+			t1.user_shangjia_fid = #{user_shangjia_fid}
+ 			 and t1.goods_category_fid = #{goods_category_id}
+		<!-- and t1.goods_category_fid in
+			(
+				select goods_category_id from tb_goods_category tgc
+				where tgc.user_shangjia_fid = #{user_shangjia_id}
+				order by tgc.addTime desc
+
+			) -->
+		order by tgg.addTime desc
+	</select>
+	
+	<!-- 餐盒费合计 -->
+	<select id="getCanhefeiSUM" parameterType="pd" resultType="pd">
+			
+			select sum(t2.totol)canhefei from (
+				SELECT
+						tot.canhefei,tot.num,tot.canhefei*tot.num as totol from tb_order_temp tot
+						where tot.shangjia_id = #{shangjia_id}
+						and tot.kehu_id = #{kehu_id}
+			)t2
+	</select>
+	
+	<!-- 商家详情 -->
+	<select id="queryUserShangjia" parameterType="pd" resultType="pd">
+		SELECT
+			*
+		FROM
+			tb_user_shangjia t1
+		WHERE
+			t1.user_shangjia_id = #{user_shangjia_id}
+		GROUP BY t1.user_shangjia_id
+	</select>
+	
+	<!-- 去商品详情页面 -->
+	<select id="queryshangpingxing" parameterType="pd" resultType="pd">
+		SELECT
+			t1.goodsImg,
+			t1.goodsName,
+			t1.goodsIntroduce,
+			t1.presentPrice,
+			t1.originalPrice,
+			t2.deliveryAmount
+		FROM
+			tb_goods t1
+		LEFT JOIN tb_user_shangjia t2 ON t1.user_shangjia_fid = t2.user_shangjia_id
+		WHERE
+			t1.goods_id = #{goods_id}
+	</select>
+	
+	<!-- 执行保存外卖订单表-->
+	<insert id="insertOrderTakeou" parameterType="pd">
+		insert into tb_order_takeou(
+			order_takeou_id,
+			orderTime,
+			orderNumber,
+			qucan_number,
+			order_remark,
+			payState,
+			orderStateKehu,
+			orderStateShangjia,
+			orderStateQishou,
+			payMethod,
+			totalSum,
+			paySum,
+			user_kehu_fid,
+			user_shangjia_fid,
+			shouhuo_address_fid,
+			user_qishou_fid,
+			peisongfei,
+			mjyh,
+			xyhli,
+			mjpsf,
+			mkID,
+			arriveTime,
+			deliveryMode,
+			fuwubili
+		)values(
+			#{order_takeou_id},
+			#{orderTime},
+			#{orderNumber},
+			#{qucan_number},
+			#{order_remark},
+			#{payState},
+			#{orderStateKehu},
+			#{orderStateShangjia},
+			#{orderStateQishou},
+			#{payMethod},
+			#{totalSum},
+			#{paySum},
+			#{user_kehu_fid},
+			#{user_shangjia_fid},
+			#{shouhuo_address_fid},
+			#{user_qishou_fid},
+			#{peisongfei},
+			#{mjyh},
+			#{xyhli},
+			#{mjpsf},
+			#{mkID},
+			#{arriveTime},
+			#{deliveryMode},
+			#{fuwubili}
+		)
+	</insert>
+	
+	<!-- 执行保存外卖订单商品-->
+	<insert id="insertOrderGoods" parameterType="pd">
+		insert into tb_order_goods(
+			order_goods_id,
+			goodsName,
+			goodsNum,
+			canhefei,
+			originalPrice,
+			presentPrice,
+			takeout_order_fid,
+			goods_fid
+		)values(
+			#{order_goods_id},
+			#{goodsName},
+			#{goodsNum},
+			#{canhefei},
+			#{originalPrice},
+			#{presentPrice},
+			#{takeout_order_fid},
+			#{goods_fid}
+		)
+	</insert>
+	
+	<!-- 我的外卖全部订单 -->
+	<select id="queryOrderTakeouLists" parameterType="page" resultType="pd">
+			SELECT
+				IFNULL(t1.user_shangjia_fid,'')user_shangjia_fid,
+				IFNULL(t1.order_takeou_id,'')order_takeou_id,
+				t1.orderTime,
+				t1.deliveryMode,
+				t1.orderStateKehu,
+				t1.mkID,
+				IFNULL(t1.qucan_number,'')qucan_number,
+				IFNULL(t1.order_remark,'')order_remark,
+				IFNULL(t1.payMethod,'')payMethod,
+				IFNULL(t1.totalSum,0)totalSum,
+				IFNULL(t1.paySum,0)paySum,
+				IFNULL(t1.peisongfei,0)peisongfei,
+				IFNULL(t1.is_evaluate,'0')is_evaluate,
+				IFNULL(t2.shopName,'')shopName,
+				IFNULL(t2.latitude,'')latitude_sj,
+				IFNULL(t2.longitude,'')longitude_sj,
+				IFNULL(t2.logoImg,'')logoImg,
+				IFNULL(t3.detailAddress,'')detailAddress,
+				IFNULL(t3.latitude,'')latitude,
+				IFNULL(t3.longitude,'')longitude,
+				IFNULL(t3.phone,'')phone,
+				IFNULL(t4.originalPrice,0)originalPrice,
+				IFNULL(t4.presentPrice,0)presentPrice,
+				IFNULL(t4.goodsName,'')goodsName,
+				IFNULL(t4.goodsNum,'')goodsNum
+			FROM
+				tb_order_takeou t1
+			LEFT JOIN tb_user_shangjia t2 ON t1.user_shangjia_fid = t2.user_shangjia_id
+			LEFT JOIN tb_shouhuo_address t3 ON  t1.user_kehu_fid  = t3.user_kehu_fid
+			LEFT JOIN tb_order_goods t4 ON t1.order_takeou_id = t4.takeout_order_fid
+			WHERE t1.user_kehu_fid = #{user_kehu_fid}
+			<if test="user_shangjia_id!='' and user_shangjia_id!=null">
+				and user_shangjia_fid=#{user_shangjia_id}
+			</if>
+			GROUP BY t1.order_takeou_id
+			order by t1.orderStateKehu asc ,t1.orderTime DESC 
+	</select>
+	
+	<!-- 订单详情 -->
+    <select id="querytbOrderTakeou" parameterType="pd" resultType="pd">
+        SELECT
+            t1.order_takeou_id,
+            t1.orderTime,
+            t1.mkID,
+            t1.deliveryMode,
+            t1.qucan_number,
+            t1.order_remark,
+            t1.orderNumber,
+            t1.payMethod,
+            t1.totalSum,
+            t1.paySum,
+            t1.peisongfei,
+            t1.orderStateKehu,
+            t1.qurysdTime,
+            t1.user_shangjia_fid,
+            t1.user_qishou_fid,
+            t1.mkID,
+            t2.address,
+            t2.shopName,
+            t1.mjyh,
+            t1.xyhli,
+            t1.mjpsf,
+            t2.logoImg,
+            t2.tel_phone,
+            t3.detailAddress,
+            t3.linkmanName,
+            t3.phone,
+            t3.identity,
+            IFNULL(ROUND(SUM(t4.canhefei), 2),0) canhefei
+            <!-- t4.goodsName,
+            t4.goodsNum,
+            t4.originalPrice -->
+        FROM
+            tb_order_takeou t1
+        LEFT JOIN tb_user_shangjia t2 ON t1.user_shangjia_fid = t2.user_shangjia_id
+        LEFT JOIN tb_shouhuo_address t3 ON  t1.user_kehu_fid  = t3.user_kehu_fid
+        LEFT JOIN tb_order_goods t4 ON  t1.order_takeou_id = t4.takeout_order_fid
+        WHERE  t1.order_takeou_id = #{order_takeou_id} AND isDefault ='1'
+        <!-- GROUP BY t1.order_takeou_id  -->
+    </select>
+
+    <!-- 将此条订单设置成已被评价过 -->
+	<update id="setIsEvaluate" parameterType="pd">
+		update 
+			tb_order_takeou
+		set
+		 	is_evaluate = '1'
+		WHERE  order_takeou_id = #{order_takeou_id}
+	</update>
+	
+	<!-- 执行删除外卖订单 -->
+	<delete id="quxiaoOrderDelete" parameterType="pd">
+		delete from tb_order_takeou where order_takeou_id = #{order_takeou_id}
+	</delete>
+	
+	<!-- 执行删除外卖订单 -->
+	<delete id="quxiaoOrderGoodsDelete" parameterType="pd">
+		delete from tb_order_goods where takeout_order_fid = #{order_takeou_id}
+	</delete>
+	
+	<!-- 客户端详细商家商品列表 -->
+	<select id="kehuOrderGoodsLists" parameterType="pd" resultType="pd">
+		SELECT
+			t1.order_goods_id,
+			t1.goodsName,
+			t1.goodsNum,
+			t1.canhefei,
+			t1.originalPrice,
+			t1.presentPrice,
+			t1.takeout_order_fid,
+			t1.goods_fid
+		FROM
+			tb_order_goods t1
+		WHERE
+			t1.takeout_order_fid = #{order_takeou_id}
+	</select>
+	
+	<!-- 客户端正在进行中的订单  -->
+	<select id="queryOrderTakeouHaveInHand" parameterType="pd" resultType="pd">
+		SELECT 
+			(select count(*) from tb_order_takeou t1 where t1.user_kehu_fid =#{user_kehu_id} AND t1.orderStateKehu='2') AS haveInHands,
+			(select count(*) from tb_order_tongcheng t1 where t1.user_kehu_fid =#{user_kehu_id} AND t1.order_tongcheng_status='2') AS haveInHandTc,
+			(select count(*) from tb_order_changtu t1 where t1.user_kehu_fid =#{user_kehu_id} AND t1.order_changtu_status='1') AS haveInHandCt
+	</select>
+	
+	
+	
+	<!-- by yym -->
+	<select id="saveTempOrder" parameterType="pd">
+		insert into tb_order_temp(
+			temp_id,
+			kehu_id,
+			shangjia_id,
+			sp_id,
+			sp_name,
+			price,
+			num,
+			weight,
+			mkID,
+			canhefei
+		)values(
+			#{temp_id},
+			#{kehu_id},
+			#{shangjia_id},
+			#{sp_id},
+			#{sp_name},
+			#{price},
+			#{num},
+			#{weight},
+			#{mkID},
+			#{canhefei}
+		)
+		
+	</select>
+	
+	<delete id="delTempOrder" parameterType="pd">
+		delete from tb_order_temp where kehu_id = #{user_kehu_id}
+	</delete>
+	
+	<select id="selectTempOrderList" parameterType="pd" resultType="pd">
+		select 
+			temp_id,
+			kehu_id,
+			shangjia_id,
+			sp_id,
+			sp_name name,
+			price,
+			num,
+			mkID,
+			canhefei,
+			weight
+	 	from tb_order_temp where kehu_id = #{user_kehu_id}
+	</select>
+	
+	<!-- 修改临时订单表某件商品的数量 -->
+	<update id="updateNumberbyId" parameterType="pd">
+		update tb_order_temp set num = #{num} 
+		where kehu_id = #{user_kehu_id}
+		and sp_id = #{sp_id}
+	</update>
+	
+	<delete id="delTempOrderBySpID" parameterType="pd">
+		delete from tb_order_temp where kehu_id = #{user_kehu_id}
+		and sp_id = #{sp_id}
+	</delete>
+	
+	
+	<!-- 根据客户id算出合计 -->
+	<select id="getTotolByUserKeHuID" parameterType="pd" resultType="pd">
+			select 
+				sum(t2.totol)totol,
+				sum(t2.canhefei1)canhefei,
+				SUM(t2.weight) weight
+			from (
+				select 
+						price,
+						num,
+						price * num as totol,
+						canhefei,
+						canhefei * num as canhefei1,
+						num*weight weight
+				 from tb_order_temp where kehu_id =  #{user_kehu_id}
+			)t2
+	</select>
+	
+	
+	<!-- 查询最大的取餐号 -->
+	<select id="selectMaxQucanNumber" parameterType="pd" resultType="pd">
+			select max(tot.qucan_number)maxnum from tb_order_takeou tot 
+	</select>
+	
+	<!-- 根据商家id查询该商家的起送价格 -->
+	<select id="getqisonjiagebyID" parameterType="pd" resultType="pd">
+		select deliveryAmount from tb_user_shangjia where user_shangjia_id = #{user_shangjia_id}
+	</select>
+	
+	<!-- 倒计时完 删除订单表 -->
+	<delete id="deleteOrderTakeOut" parameterType="pd">
+		delete from tb_order_takeou where order_takeou_id = #{order_takeou_id}
+	</delete>
+	
+	
+	<!-- 支付时更新订单编号 -->
+	<select id="updateOrderNumber" parameterType="pd">
+		update tb_order_takeou set 
+					orderNumber=#{orderNumber},
+					payMethod = #{payMethod}
+		where user_kehu_fid = #{user_kehu_id}
+		and orderNumber is null or orderNumber=''
+	</select>
+	
+	<!-- 更新订单编号 -->
+	<select id="updateOrderNumberById" parameterType="pd">
+		update tb_order_takeou 
+		set 
+			orderNumber=#{orderNumber}
+		where order_takeou_id = #{order_takeou_id}
+	</select>
+	
+	<!-- 根据订单编号获取订单信息 -->
+	<select id="getOrderInforByOrderNumber" parameterType="pd" resultType="pd">
+		select 
+			paySum,
+			orderNumber
+		from tb_order_takeou 
+		where orderNumber = #{orderNumber}
+	</select>
+	
+	<!-- 支付完成后异步回调函数中执行，根据订单修改相应信息 -->
+	<update id="updateOrderInfoByOrderNumber" parameterType="pd">
+		update tb_order_takeou set 
+			payState = #{payState},
+			payMethod = #{payMethod},
+			orderStateKehu = #{orderStateKehu}
+		where orderNumber = #{orderNumber}
+	</update>
+	
+	<!-- 根据用户id查询一条同城订单是否存在进行中信息-->
+	<select id="getorderTongchengjinxing" parameterType="pd" resultType="pd">
+		SELECT
+			IFNULL(order_tongcheng_id,'')order_tongcheng_id,
+			IFNULL(user_kehu_fid,'')user_kehu_fid,
+			IFNULL(order_tongcheng_status,'')order_tongcheng_status,
+			IFNULL(information_tongcheng_id,'')information_tongcheng_id
+		FROM
+			tb_order_tongcheng 
+		WHERE
+			user_kehu_fid = #{user_kehu_fid}  AND  order_tongcheng_status = 1
+	</select>
+	
+	<!-- 根据用户id查询一条同城订单是否存在未付款信息-->
+	<select id="getorderTongcheng" parameterType="pd" resultType="pd">
+		SELECT
+			IFNULL(order_tongcheng_id,'')order_tongcheng_id,
+			IFNULL(user_kehu_fid,'')user_kehu_fid,
+			IFNULL(order_tongcheng_status,'')order_tongcheng_status,
+			IFNULL(information_tongcheng_id,'')information_tongcheng_id
+		FROM
+			tb_order_tongcheng 
+		WHERE
+			user_kehu_fid = #{user_kehu_fid}  AND  order_tongcheng_status = 2
+	</select>
+	
+	<!-- 根据用户id查询一条同城订单是否存在已接驾订单-->
+	<select id="getorderTongyijiejia" parameterType="pd" resultType="pd">
+		SELECT
+			IFNULL(order_tongcheng_id,'')order_tongcheng_id,
+			IFNULL(user_kehu_fid,'')user_kehu_fid,
+			IFNULL(order_tongcheng_status,'')order_tongcheng_status,
+			IFNULL(information_tongcheng_id,'')information_tongcheng_id
+		FROM
+			tb_order_tongcheng 
+		WHERE
+			user_kehu_fid = #{user_kehu_fid}  AND  order_tongcheng_status = 4
+	</select>
+	
+	<!-- 根据用户id查询一条长途订单是否存在未付款信息-->
+	<select id="getorderChangtu" parameterType="pd" resultType="pd">
+		SELECT
+			user_kehu_fid
+		FROM
+			tb_order_changtu
+		WHERE
+			user_kehu_fid = #{user_kehu_fid}  AND  order_changtu_status = 1
+	</select>
+	
+	<!-- 根据外卖订单编号获取查询商家的id-->
+	<select id="geuserShangjiaFid" parameterType="pd" resultType="pd">
+		SELECT
+			user_shangjia_fid,
+			order_takeou_id
+		FROM
+			tb_order_takeou
+		WHERE
+			orderNumber = #{orderNumber}
+	</select>
+	
+	<!-- 根据同城信息ID获取查询司机id -->
+	<select id="getUserSijiFid" parameterType="pd" resultType="pd">
+		select 
+			user_siji_fid
+		from 
+			tb_order_tongcheng
+		where 
+			information_tongcheng_id = #{information_tongcheng_id}
+	</select>
+	
+	<!-- 获取指定司机设备ID -->
+	<select id="queryRegistrationID" parameterType="pd" resultType="pd">
+		SELECT
+			t1.RegistrationID,
+			t1.RegistrationType
+		FROM
+			tb_user_siji t1
+		WHERE
+			t1.user_siji_id = #{user_siji_id}
+	</select>
+	
+	<!-- 轮播图列表 -->
+	<select id="picturesList" parameterType="pd" resultType="pd">
+		select
+				a.TITLE,	
+				a.NAME,	
+				a.PATH,	
+				a.CREATETIME,	
+				a.MASTER_ID,	
+				a.STATUS,
+				a.BZ,	
+				a.PICTURES_ID
+		from 
+				SYS_PICTURES a
+		where 1 = 1 AND STATUS=1
+	</select>
+	<!-- 导航八大模块 -->
+	<select id="getMoKuaiList" parameterType="pd" resultType="pd">
+		SELECT
+			tbm.mokuai_id,
+			tbm.headImg,
+			tbm.title,
+			tbm.type
+		FROM
+			tb_mokuai tbm
+		ORDER BY
+			tbm.type ASC
+	</select>
+	
+	<!-- 执行新增收货地址 -->
+	<insert id="saveaddress" parameterType="pd">
+		insert into tb_shouhuo_address (
+			shouhuo_address_id,
+			linkmanName,
+			phone,
+			address,
+			latitude,
+			longitude,
+			detailAddress,
+			identity,
+			lable,
+			isDefault,
+			create_time,
+			user_kehu_fid
+		) values (
+			#{shouhuo_address_id},
+			#{linkmanName},
+			#{phone},
+			#{address},
+			#{latitude},
+			#{longitude},
+			#{detailAddress},
+			#{identity},
+			#{lable},
+			#{isDefault},
+			#{create_time},
+			#{user_kehu_id}
+		)
+	</insert>
+	<!--
+		设置为默认收货地址
+	-->
+	<update id="isDefault" parameterType="pd">
+		update tb_shouhuo_address set
+		isDefault = #{isDefault}
+		where 
+		<if test="user_kehu_fid!='' and user_kehu_fid!=null">
+			user_kehu_fid=#{user_kehu_fid}
+		</if>
+		<if test="shouhuo_address_id!='' and shouhuo_address_id!=null">
+			shouhuo_address_id=#{shouhuo_address_id}
+		</if>
+	</update>
+	<!-- 执行编辑收货地址 -->
+	<update id="saveEdit" parameterType="pd">
+		update  tb_shouhuo_address set 
+			linkmanName =#{linkmanName},
+			phone =#{phone},
+			address =#{address},
+			latitude =#{latitude},
+			longitude =#{longitude},
+			detailAddress =#{detailAddress},
+			identity =#{identity},
+			lable =#{lable},
+			isDefault =#{isDefault},
+			update_time =#{update_time}
+		where 
+		     shouhuo_address_id = #{shouhuo_address_id}	AND user_kehu_fid =#{user_kehu_fid}
+	</update>
+	
+	<!-- 收货地址列表 -->
+	<select id="addressList" parameterType="pd" resultType="pd">
+		SELECT
+			t1.shouhuo_address_id,
+			t1.linkmanName,
+			t1.phone,
+			t1.address,
+			t1.detailAddress,
+			t1.identity,
+			t1.lable,
+			t1.isDefault,
+			t1.user_kehu_fid,
+			t1.latitude,
+			t1.longitude,
+			t1.create_time
+		FROM
+			tb_shouhuo_address t1
+		WHERE
+			t1.user_kehu_fid = #{user_kehu_fid}
+		order by t1.isDefault desc, t1.update_time desc
+	</select>	
+	
+	<!-- 批量设置成不是默认 -->
+	<update id="setisDefaultON" parameterType="pd">
+		update tb_shouhuo_address set
+		isDefault = '0'
+		where user_kehu_fid in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 根据id查询一条信息 -->
+	<select id="addressEdit" parameterType="pd" resultType="pd">
+		SELECT
+			t1.shouhuo_address_id,
+			t1.linkmanName,
+			t1.phone,
+			t1.address,
+			t1.latitude,
+			t1.longitude,
+			t1.detailAddress,
+			t1.identity,
+			t1.lable,
+			t1.isDefault,
+			t1.user_kehu_fid,
+			t1.create_time
+		FROM
+			tb_shouhuo_address t1
+		WHERE
+			t1.shouhuo_address_id = #{shouhuo_address_id}
+	</select>
+		
+	<!-- 确认订单的默认地址 -->
+	<select id="getByisDefault" parameterType="pd" resultType="pd">
+		SELECT
+			t1.shouhuo_address_id,
+			t1.linkmanName,
+			t1.phone,
+			t1.address,
+			t1.latitude,
+			t1.longitude,
+			t1.detailAddress,
+			t1.identity,
+			t1.lable,
+			t1.isDefault,
+			t1.user_kehu_fid,
+			t1.create_time
+		FROM
+			tb_shouhuo_address t1
+		WHERE
+			t1.user_kehu_fid = #{user_kehu_fid} AND t1.isDefault = '1'
+	</select>	
+	
+	<!-- 执行删除收货地址 -->
+	<delete id="addressDelete" parameterType="pd">
+		delete from tb_shouhuo_address where shouhuo_address_id=#{shouhuo_address_id}
+	</delete>
+	
+	<!-- 获取满减优惠列表 -->
+	<select id="getMjyhList" parameterType="pd" resultType="pd">
+		<!-- select * from tb_mjyh where user_shangjia_fid = #{user_shangjia_id}
+		and mjyh_state=1 -->
+		SELECT
+			man_num,
+			jian_num,
+			mjyh_id,
+			user_shangjia_fid,
+			mjyh_state
+		FROM
+			tb_mjyh
+		WHERE
+			user_shangjia_fid = #{user_shangjia_id}
+		AND mjyh_state = 1 
+		ORDER BY CAST(man_num AS SIGNED) asc 
+	</select>
+	<!-- 获取满减配送费列表 -->
+	<select id="getMjpsfList" parameterType="pd" resultType="pd">
+		SELECT
+			man_num,
+			jian_num,
+			mjpsf_id,
+			user_shangjia_fid,
+			mjpsf_state
+		FROM
+			tb_mjpsf
+		WHERE
+			user_shangjia_fid = #{user_shangjia_id}
+		AND mjpsf_state = 1 
+		ORDER BY CAST(man_num AS SIGNED) asc 
+	</select>
+	
+	<!-- 评价标签码列表 -->
+    <select id="sysLabelList" parameterType="pd" resultType="pd">
+        <!-- SELECT
+            t1.label_id,
+            t1.labelName,
+            t1.type
+        FROM
+            sys_label t1 -->
+        <!-- SELECT
+			syl.labelName,
+			syl.label_id,
+			syl.type,
+			COUNT(0) num
+		FROM sys_label syl
+		LEFT JOIN(
+			SELECT
+				tel.evaluate_label_id,
+				tel.evaluate_fid,
+				tel.label_fid
+			FROM tb_evaluate_label tel
+			INNER JOIN tb_evaluate tbe ON tbe.evaluate_id = tel.evaluate_fid
+			WHERE tbe.type=1 and tbe.category=1 and tbe.user_shangjia_fid=#{user_shangjia_id}
+		)t1 ON t1.label_fid=syl.label_id
+		WHERE syl.type=1
+		GROUP BY syl.label_id   -->  
+		SELECT
+			t2.labelName,
+			t2.label_id,
+			t2.type,
+			t2.user_shangjia_fid,
+			t2.num1,
+			SUM(t2.num1) num
+		FROM (
+			SELECT
+				syl.labelName,
+				syl.label_id,
+				syl.type,
+				t1.user_shangjia_fid,
+				IF(ISNULL(t1.user_shangjia_fid),0,1) num1
+			FROM sys_label syl
+			LEFT JOIN(
+				SELECT
+					tel.evaluate_label_id,
+					tel.evaluate_fid,
+					tel.label_fid,
+					tbe.user_shangjia_fid
+				FROM tb_evaluate_label tel
+				INNER JOIN tb_evaluate tbe ON tbe.evaluate_id = tel.evaluate_fid
+				WHERE tbe.type=1 and tbe.category=1 and tbe.user_shangjia_fid=#{user_shangjia_id}
+			)t1 ON t1.label_fid=syl.label_id
+			<where> 1=1
+			<if test="type=='' or type==null">
+				and syl.type=1
+			</if> 
+			</where>
+		)t2
+		GROUP BY t2.label_id
+    </select>
+    <!--  
+    	获取商家的评价列表
+    -->
+    <select id="getEvaluateListOfShangJia" parameterType="pd" resultType="pd">
+    	SELECT
+			tbe.evaluate_id,
+			tbe.user_kehu_fid,
+			tuk.userName,
+			tuk.headImg,
+			tbe.score,
+			tbe.time,
+			tbe.content,
+			t2.labelNames,
+			tbe.user_shangjia_fid
+		FROM tb_evaluate tbe
+		INNER JOIN (
+			SELECT
+				t1.evaluate_fid,
+				GROUP_CONCAT(t1.labelName) labelNames
+			FROM(
+				SELECT 
+					tel.evaluate_fid,
+					syl.labelName
+				FROM tb_evaluate_label tel
+				LEFT JOIN sys_label syl ON syl.label_id=tel.label_fid
+				WHERE syl.type=1  
+				<if test="label_id!='' and label_id!=null">
+					and syl.label_id=#{label_id}
+				</if>
+				
+			) t1
+			GROUP BY t1.evaluate_fid
+		)t2 ON t2.evaluate_fid=tbe.evaluate_id
+		LEFT JOIN tb_user_kehu tuk ON tuk.user_kehu_id=tbe.user_kehu_fid
+		WHERE tbe.type=1 and tbe.category=1 and tbe.user_shangjia_fid=#{user_shangjia_id}
+		ORDER BY tbe.time desc
+    </select>
+    <!-- 执行保存订单评价 -->
+    <insert id="savemyeval" parameterType="pd">
+        insert into tb_evaluate (
+            evaluate_id,
+            score,
+            min,
+            user_kehu_fid,
+            user_shangjia_fid,
+            user_qishou_fid,
+            type,
+            category,
+            label,
+            content,
+            evaluate_fid,
+            mkID,
+            time
+        ) values (
+            #{evaluate_id},
+            #{score},
+            #{min},
+            #{user_kehu_fid},
+            #{user_shangjia_fid},
+            #{user_qishou_fid},
+            #{type},
+            #{category},
+            #{label},
+            #{content},
+            #{evaluate_fid},
+            #{mkID},
+            #{time}
+        )
+    </insert>
+    
+    <!-- 执行保存评价标签关系表 -->
+	<insert id="saveEvaluateLabel" parameterType="pd">
+        insert into tb_evaluate_label (
+            evaluate_label_id,
+            evaluate_fid,
+            label_fid
+        ) values (
+            #{evaluate_label_id},
+            #{evaluate_fid},
+            #{label_fid}
+        )
+    </insert>
+    
+    <!-- 我的评价列表 -->
+    <select id="getEvaluateList" parameterType="pd" resultType="pd">
+        SELECT
+            t1.evaluate_id,
+            t1.score,
+            t1.user_kehu_fid,
+            t1.user_shangjia_fid,
+            t1.user_qishou_fid,
+            t1.type,
+            t1.category,
+            t1.label,
+            t1.content,
+            t1.time,
+            t1.min,
+            t1.evaluate_fid,
+            t1.mkID,
+            t2.shopName
+        FROM
+            tb_evaluate t1
+        LEFT JOIN
+          	tb_user_shangjia t2 ON t1.user_shangjia_fid = t2.user_shangjia_id
+        WHERE
+        	t1.user_kehu_fid = #{user_kehu_fid} and type=#{type}
+    </select>
+    
+    <!-- 查询对商家的评价总数 -->
+	<select id="queryPingLunSum" parameterType="pd" resultType="pd">
+		SELECT
+			IFNULL(COUNT(*),0)count
+		FROM
+			tb_evaluate t1
+		WHERE
+			t1.type = '1'
+		<if test="user_kehu_fid !='' and user_kehu_fid!=null">
+			AND t1.user_kehu_fid = #{user_kehu_fid}
+		</if>
+		<if test="user_shangjia_id !='' and user_shangjia_id!=null">
+			AND t1.user_shangjia_fid = #{user_shangjia_id}
+		</if>
+	</select>
+	
+    <!-- 查询商家的商品出售后的，各类评价的总数-->
+	<select id="queryGeLeiPJSum" parameterType="pd" resultType="pd">
+		SELECT
+			COUNT(*) counts
+		FROM
+			tb_evaluate_label t1
+		LEFT JOIN tb_evaluate t2 ON t1.evaluate_fid = t2.evaluate_id AND t2.type = 1
+		WHERE t1.label_fid = #{label_fid}
+	</select>
+	
+    <!-- 根据id查询追评的评价 -->
+	<select id="queryByevaluateId" parameterType="pd" resultType="pd">
+		SELECT
+			<!-- t1.evaluate_id,
+            t1.score,
+            t1.user_kehu_fid,
+            t1.user_shangjia_fid,
+            t1.user_qishou_fid,
+            t1.type,
+            t1.category,
+            t1.label,
+            t1.content,
+            t1.time,
+            t1.min -->
+            t1.*
+		FROM
+			tb_evaluate t1
+		WHERE
+			<if test="evaluate_id !='' and evaluate_id!=null">
+				t1.evaluate_id = #{evaluate_id}
+			</if>
+			<if test="evaluate_fid !='' and evaluate_fid!=null">
+				t1.evaluate_fid = #{evaluate_fid}
+			</if>
+	</select>
+	
+     <!-- 我的收藏列表 -->
+    <select id="getShouCangList" parameterType="pd" resultType="pd">
+        SELECT
+			t1.shoucang_id,
+			t1.user_shangjia_fid,
+			t1.mkID,
+			t2.shopName,
+			t2.logoImg,
+			t2.address,
+			IFNULL(t3.score,0)score
+		FROM
+			tb_shoucang t1
+		LEFT JOIN tb_user_shangjia t2  ON t1.user_shangjia_fid = t2.user_shangjia_id
+		LEFT JOIN tb_evaluate t3  ON t1.user_kehu_fid = t3.user_kehu_fid AND t3.user_shangjia_fid = t1.user_shangjia_fid AND t3.type ='1'
+		WHERE t1.user_kehu_fid = #{user_kehu_fid}
+		GROUP BY t1.shoucang_id
+    </select>
+    
+    <!-- 查询是否已被收藏过了 -->
+	<select id="selectShouCang" parameterType="pd" resultType="pd">
+			SELECT 
+				*
+			FROM 
+				tb_shoucang
+			WHERE 
+				user_shangjia_fid = #{user_shangjia_fid} AND user_kehu_fid = #{user_kehu_fid}
+	</select>
+	
+	<!-- 执行收藏商家店铺  -->
+	<insert id="insertShouCang" parameterType="pd">
+		INSERT INTO tb_shoucang (
+			shoucang_id,
+			user_kehu_fid,
+			user_shangjia_fid,
+			mkID
+		)VALUES(
+			#{shoucang_id},
+			#{user_kehu_fid},
+			#{user_shangjia_fid},
+			#{mkID}
+		)
+	</insert>
+	
+	<!-- 执行取消收藏 -->
+	<delete id="deletelShouCang" parameterType="pd">
+		DELETE FROM tb_shoucang WHERE  shoucang_id = #{shoucang_id}
+	</delete>
+	
+	<!-- 联系我们 -->
+    <select id="syslianxiwmList" parameterType="pd" resultType="pd">
+        SELECT
+			t1.contact_id,
+			t1.hotline,
+			t1.weChat
+		FROM
+			sys_contactwm t1
+    </select>
+    
+    <select id="getGoodDetailByID" parameterType="pd" resultType="pd">
+    	select * from tb_goods
+    	
+    	 where goods_id = #{good_id}
+    </select>
+    
+    <!-- 根据ID获取商家信息 -->
+	<select id="getShangJiaDataByID" parameterType="pd" resultType="pd">
+		SELECT 
+			*
+			FROM tb_user_shangjia 
+		WHERE
+			user_shangjia_id = #{user_shangjia_id}
+	</select>
+    
+    
+</mapper>

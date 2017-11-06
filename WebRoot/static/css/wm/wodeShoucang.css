@@ -1,0 +1,59 @@
+.contentDiv{
+    width:100%;
+    padding-top:50px;
+}
+.shoucangDiv{
+    width:100%;
+    height:86px;
+    background-color: #fff;
+    padding:0 3%;
+    margin-bottom:5px;
+}
+.shoucangDiv>img{
+    width:60px;
+    height:60px;
+    float: left;
+    border-radius: 5px;
+    margin-top:10px;
+    margin-right:10px;
+}
+.shoucRight{
+    height:60px;
+    float: right;
+    margin-top:10px;
+}
+.shoucRight>p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.line1{
+    width:100%;
+    height:18px;
+    line-height: 18px;
+    font-size: 18px;
+    color:#333;
+}
+.line2{
+    width:100%;
+    height:16px;
+    line-height: 16px;
+    margin-top:5px;
+}
+.line2>img{
+    float: left;
+    width:16px;
+    height: 16px;
+}
+.line2>a{
+    color:#666;
+    float: right;
+}
+.line3{
+    width:100%;
+    height:13px;
+    line-height: 13px;
+    font-size: 13px;
+    color: #adadad;
+    margin-top:8px;
+}

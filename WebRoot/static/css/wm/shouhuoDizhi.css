@@ -1,0 +1,238 @@
+.contentDiv{
+    width:100%;
+    overflow: hidden;
+    margin-top:50px;
+    padding-top:10px;
+    padding-bottom:55px;
+}
+.dizhiDiv{
+    width:94%;
+    height:80px;
+    background-color: #fff;
+    border:1px solid #d2d2d2;
+    border-radius: 10px;
+    margin:0 auto;
+    padding:0 3%;
+    overflow: hidden;
+    margin-top:10px;
+}
+.dizhiLeft{
+    width:80%;
+    height:80px;
+    float: left;
+}
+.dizhiLeft>p{
+    width:100%;
+    height:20px;
+    line-height: 20px;
+    /* font-size: 18px; */
+    overflow: hidden;
+    margin-top:14px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dizhiLeft>p>span{
+    float: left;
+    margin-right:10px;
+}
+.dizhiLeft>p:nth-child(1)>span:nth-child(1){
+    font-size: 18px;
+    color:#333;
+}
+.dizhiLeft>p:nth-child(1)>span:nth-child(2){
+    font-size: 12px;
+    color:#333;
+}
+.dizhiLeft>p:nth-child(1)>span:nth-child(3){
+    font-size: 12px;
+    color:#0284fb;
+    display: block;
+    width:36px;
+    height:18px;
+    line-height: 18px;
+    text-align: center;
+    border:1px solid #0284fb;
+    border-radius: 3px;
+}
+.dizhiLeft>p:nth-child(2){
+    font-size: 12px;
+    color:#848484;
+}
+.dizhiLeft>p:nth-child(2)>span:nth-child(1){
+    font-size: 12px;
+    color:#0284fb;
+    display: block;
+    width:36px;
+    height:18px;
+    line-height: 18px;
+    text-align: center;
+    border:1px solid #0284fb;
+    border-radius: 3px;
+}
+.dizhiRight{
+    float: left;
+    width:20%;
+    height:80px;
+    line-height: 80px;
+    text-align: right;
+}
+.dizhiRight>p{
+    width:100%;
+    height:30px;
+    line-height: 30px;
+}
+.dizhiRight>p>a{
+    color:#999;
+    font-size:24px;
+}
+.shanchuDiv{
+    width:70%;
+    height:145px;
+    position: fixed;
+    top:40%;
+    left:15%;
+    z-index:505;
+    display: none;
+    border:1px solid #f4f4f4;
+    background-color:#fff;
+    border-radius: 10px;
+}
+.shifou{
+    width:100%;
+    height:90px;
+    line-height: 90px;
+    text-align: center;
+    color:#333333;
+    font-size: 16px;
+    border-bottom:1px solid #f4f4f4;
+}
+.shanchuDiv>p:nth-child(2){
+    width:100%;
+    height:55px;
+    line-height: 55px;
+    overflow: hidden;
+}
+.shanchuDiv>p:nth-child(2)>a{
+    display: block;
+    width:50%;
+    height:55px;
+    line-height: 55px;
+    color:#333333;
+    font-size:16px;
+    float: left;
+    text-align: center;
+}
+.shanchuDiv>p:nth-child(2)>a:nth-child(1){
+    border-right:1px solid #f4f4f4;
+}
+.xinzeng{
+    display: block;
+    width:100%;
+    height:51px;
+    line-height: 51px;
+    border-top:1px solid #c3c3c3;
+    background-color: #fff;
+    color:#0284fb;
+    text-align: center;
+    position: fixed;
+    left:0;
+    bottom:0;
+    z-index: 100;
+    font-size:16px;
+}
+.xinzeng>i{
+    font-size:18px;
+    margin-right:5px;
+}
+
+
+
+.content{
+    width:94%;
+    margin:0 auto;
+}
+.userDiv{
+    width:100%;
+    height:48px;
+    line-height: 48px;
+    border:1px solid #d2d2d2;
+    border-radius: 25px;
+    background-color: #fff;
+    padding:0 6%;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.userDiv>span{
+    display: block;
+    width:25%;
+    height:48px;
+    color:#333;
+    font-size: 16px;
+    float: left;
+}
+.userDiv>input{
+    width:75%;
+    height:48px;
+    line-height: 48px;
+    color:#ababab;
+    float: left;
+}
+.userDiv>p{
+    width:75%;
+    height:48px;
+    line-height: 48px;
+    color:#999;
+    float: left;
+    font-size:14px;
+}
+.userDiv>p>i{
+    margin-right:5px;
+    font-size: 15px;
+}
+.shenfen,.biaoqian{
+    width:100%;
+    height:32px;
+    line-height: 32px;
+    margin-top:15px;
+    overflow: hidden;
+}
+.shenfen>span,.biaoqian>span{
+    display: block;
+    width:20%;
+    text-align: center;
+    height:32px;
+    line-height: 32px;
+    color:#fff;
+    background-color: #bfbfbf;
+    border-radius: 15px;
+    margin-right:6%;
+    float: left;
+    font-size:14px;
+}
+.shenfen>a,.biaoqian>a{
+    display: block;
+    width:20%;
+    text-align: center;
+    height:32px;
+    line-height: 32px;
+    color:#0283fb;
+    background-color: #fff;
+    border-radius: 15px;
+    border:1px solid #0283fb;
+    margin-right:4%;
+    float: left;
+    font-size:14px;
+}
+.btn{
+    display: block;
+    width:94%;
+    margin:0 auto;
+    height:48px;
+    line-height: 48px;
+    text-align: center;
+    background-color: #0284fb;
+    color:#fff;
+    font-size: 16px;
+    margin-top:30px;
+    border-radius: 25px;
+}

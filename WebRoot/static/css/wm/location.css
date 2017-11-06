@@ -1,0 +1,112 @@
+header{
+    width:100%;
+    height:50px;
+    background-color:#fff;
+    position: fixed;
+    top:0;
+    left:0;
+    border-bottom:1px solid #f2f2f2;
+}
+.header{
+    width:92%;
+    height:50px;
+    line-height: 50px;
+    margin:0 auto;
+    overflow: hidden;
+    font-size: 18px;
+    text-align: center;
+    color:#000;
+}
+.back{
+    display:block;
+    width:20px;
+    height:30px;
+    line-height:30px;
+    color:#000;
+    float:left;
+    margin-top:10px;
+    font-size:20px;
+}
+.cityDiv{
+    width:100%;
+    margin-top:51px;
+}
+.city{
+    width:92%;
+    margin:0 auto;
+}
+.dingweiCity{
+    width:100%;
+    color:#000;
+    font-size:13px;
+    padding:18px 0 12px 0;
+}
+.hotCity{
+    width:100%;
+    height:40px;
+    overflow: hidden;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.hotCity>a{
+    display: block;
+    width:31%;
+    height:40px;
+    line-height:40px;
+    border:1px solid #eee;
+    border-radius:8px;
+    text-align: center;
+    background-color:#fff;
+    color:#000;
+    font-size:14px;
+}
+.cityListDiv{
+    width:100%;
+    padding-top:10px;
+}
+.cityList{
+    width:100%;
+    margin:0 auto;
+}
+.cityList>p{
+    width:100%;
+    font-size:14px;
+    padding:10px 4%;
+    color:#000;
+}
+.cityList>ul{
+    border-top:1px solid #ebebeb;
+}
+.cityList>ul>li{
+    width:100%;
+    height:40px;
+    line-height: 40px;
+    border-bottom:1px solid #ebebeb;
+    padding:0 4%;
+    background-color:#fff;
+    font-size:14px;
+}
+.cityList>ul>li>a{
+    display: block;
+    width:100%;
+    height:100%;
+}
+.fixRight{
+    position: fixed;
+    bottom:20px;
+    right:8px;
+    width:14px;
+    text-align:center;
+}
+.fixRight>ul{
+    overflow: hidden;
+}
+.fixRight>ul>li{
+    height:20px;
+    line-height:20px;
+}
+.fixRight>ul>li>a{
+    color:#229dfc;
+    font-size:14px;
+}

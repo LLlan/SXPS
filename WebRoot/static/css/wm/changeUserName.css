@@ -1,0 +1,76 @@
+.contentDiv{
+    margin-top:80px;
+    width:100%;
+}
+.content{
+    width: 94%;
+    margin:0 auto;
+}
+.usernameInput{
+    width:100%;
+    margin:0 auto;
+    height:48px;
+    line-height:48px;
+    border-radius:25px;
+    background-color:#fff;
+    padding:0 5%;
+    border:1px solid #e5e5e5;
+    color:#acacac;
+}
+.content>p{
+    width:90%;
+    margin:0 auto;
+    height:10px;
+    line-height:10px;
+    font-size:12px;
+    margin-top:5px;
+    color:#ababab;
+}
+.content>a{
+    display: block;
+    width: 100%;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    color: #fff;
+    background-color: #0284fe;
+    border-radius: 25px;
+    font-size:18px;
+    margin-top:30px;
+}
+
+.hunbang{
+    width:100%;
+    height:48px;
+    line-height: 48px;
+    border-radius: 25px;
+    border:1px solid #e5e5e5;
+    background-color: #fff;
+    padding:0 5%;
+}
+.telInput{
+    width:65%;
+    color:#acacac;
+    font-size:16px;
+
+}
+.img-ver1 {
+    width:35%;
+    height:24px;
+    line-height: 24px;
+    border-left:1px solid #e5e5e5;
+    font-size: 16px;
+    color:#0284fb;
+}
+.yanzhengma{
+    width:100%;
+    height: 48px;
+    line-height: 48px;
+    background-color:#fff;
+    border-radius: 25px;
+    border: 1px solid #e5e5e5;
+    color:#acacac;
+    font-size: 16px;
+    padding:0 5%;
+    margin-top:30px;
+}

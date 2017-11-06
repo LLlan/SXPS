@@ -1,0 +1,262 @@
+header{
+    width:100%;
+    height:50px;
+    background-color:#0284fe;
+    position: fixed;
+    top:0;
+    left:0;
+    z-index:100;
+}
+.header{
+    width:94%;
+    height:50px;
+    margin:0 auto;
+    overflow: hidden;
+}
+.headLeft{
+    width:25%;
+    height:50px;
+    line-height:50px;
+    float:left;
+}
+.locationIcon{
+    color:#fff;
+    font-size:18px;
+}
+.location{
+    font-size:15px;
+    color:#fff;
+}
+.arrowDown{
+    color:#fff;
+    font-size:18px;
+}
+.headRight{
+    width:75%;
+    height:37px;
+    padding-top:10px;
+    float:right;
+}
+.searchA{
+    display:block;
+    width:100%;
+    height:30px;
+    line-height:30px;
+    background:#fff url(../../images/wm/sousuo.png) 23% center no-repeat;
+    background-size:15px 15px;
+    border-radius:25px;
+    text-align: center;
+    color:#999;
+    font-size:14px;
+}
+.navDiv{
+    width:100%;
+    height:174px;
+    background-color:#fff;
+    margin-top:50px;
+}
+.nav{
+    width:98%;
+    height:87px;
+    margin:0 auto;
+    overflow: hidden;
+}
+.smNav{
+    display:block;
+    width:25%;
+    height:87px;
+    padding-top:12px;
+    text-align:center;
+    float:left;
+}
+.navDiv>.nav:nth-child(2)>.smNav{
+    padding-top:8px;
+}
+.smNav>p:nth-child(1){
+    width:45px;
+    height:45px;
+    text-align: center;
+    line-height:44px;
+    margin:0 auto;
+    border-radius:48%;
+    color:#fff;
+}
+.smNav>p:nth-child(1)>i{
+    font-size:23px;
+}
+.smNav>p:nth-child(2){
+    font-size:12px;
+    margin-top:8px;
+}
+.gonggaoDiv{
+    width:100%;
+    height:44px;
+    line-height: 44px;
+    margin:7px 0;
+    background-color:#fff;
+}
+.gonggao{
+    width:94%;
+    margin:0 auto;
+    font-size:16px;
+}
+.gonggao>i{
+    float:left;
+    margin-right:5px;
+    font-size:16px;
+}
+.gonggao>p{
+    width:70%;
+    float:left;
+    font-size:16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.gonggao>a{
+    float:right;
+    font-size:16px;
+    color:#1985f6;
+}
+.swiper-slide>img{
+    width:100%;
+    height:160px;
+}
+.contentDiv{
+    width:100%;
+    padding-bottom:53px;
+}
+.fujinP{
+    width:100%;
+    height:45px;
+    line-height:45px;
+    border-top:1px solid #f1f1f1;
+    background-color:#fff;
+    color:#000;
+    text-align: center;
+    font-size:16px;
+}
+.fujinP>.leftx,.fujinP>.rightx{
+    display:block;
+    width:50px;
+    height:1px;
+    background-color:#000;
+    margin-top:22px;
+}
+.leftx{
+    float:left;
+    margin-left:20%;
+}
+.rightx{
+    float:right;
+    margin-right:23%;
+}
+.paixuUl{
+    width:100%;
+    background-color:#fff;
+    height:40px;
+    line-height:40px;
+    border-top:1px solid #efefef;
+    overflow: hidden;
+}
+.paixuUl>li{
+    display: block;
+    width:33.333%;
+    text-align: center;
+    height:40px;
+    line-height: 40px;
+    float:left;
+}
+.paixuUl>li>a{
+    color:#666;
+    font-size:14px;
+    padding-right:15px;
+}
+.paixuUl>li>.paixuOn{
+    color:#333;
+    background:url(../../images/wm/jiantou.png) right center no-repeat;
+    background-size:10px 10px;
+}
+.shopDiv{
+    width:100%;
+    border-top:1px solid #e8e8e8;
+    background-color:#fff;
+}
+.shop{
+    width:94%;
+    margin:0 auto;
+}
+.smShop{
+    display:block;
+    width:100%;
+    height:140px;
+    border-bottom:2px solid #f7f7f7;
+    overflow: hidden;
+}
+.smShop>img{
+    width:23%;
+    height:64px;
+    float:left;
+    margin-top:16px;
+}
+.smshopRight{
+    width:74%;
+    height:124px;
+    float:right;
+    margin-top:16px;
+}
+.dianMing{
+    width:100%;
+    height:24px;
+    line-height: 24px;
+    color:#000;
+    font-weight:400;
+    font-size:16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.smshopRight>p{
+    width:100%;
+    height:22px;
+    line-height:22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size:12px;
+}
+.pingjiaP{
+    color:#333;
+}
+.pingjiaP>img{
+    width:10px;
+    height:10px;
+}
+.fright{
+    float:right;
+}
+.shuSpan{
+    color:#ddd;
+}
+.jianSpan{
+    display: block;
+    width:16px;
+    height: 16px;
+    line-height:16px;
+    font-size:12px;
+    text-align: center;
+    background-color:#fe5851;
+    color:#fff;
+    float:left;
+    margin-right:5px;
+    margin-top:2px;
+}
+.jianData{
+    color:#999;
+}
+.xinSpan{
+    background-color:#be7ade;
+}
+
+
+

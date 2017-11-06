@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="NoticeMapper">
+	<!--  
+		获取列表
+	-->	
+	<select id="headnewslistPage" parameterType="page" resultType="pd">
+		SELECT 
+			*
+		FROM sys_notice 
+		ORDER BY addTime DESC
+	</select>
+	<!--  
+		获取列表(全部)
+	-->	
+	<select id="headNewsList" parameterType="pd" resultType="pd">
+		SELECT 
+			*
+		FROM sys_notice 
+		ORDER BY addTime DESC
+	</select>
+	<!--  
+		保存的信息
+	-->
+	<insert id="insertHeadNews" parameterType="pd">
+		INSERT INTO sys_notice (
+			notice_id,
+			title,
+			content,
+			addTime
+		)
+		VALUES(
+			#{notice_id},
+			#{title},
+			#{content},
+			#{addTime}
+		)
+	</insert>
+	<!--  
+		更新
+	-->
+	<update id="updateHeadNews" parameterType="pd">
+		update sys_notice
+		set
+			title=#{title},
+			content=#{content},
+			addTime=#{addTime}
+		where notice_id=#{notice_id}
+	</update>
+	<!--  
+		根据ID获取对象信息
+	-->
+	<select id="getHeadNewsById" parameterType="pd" resultType="pd">
+		SELECT
+			*
+		FROM sys_notice
+		WHERE 
+			notice_id=#{notice_id}
+	</select>
+	<!--  
+		根据ID删除指定对象信息
+	-->
+	<delete id="deleteHeadNewsById" parameterType="pd">
+		DELETE 
+		FROM sys_notice
+		WHERE notice_id in
+		<foreach collection="ids" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+</mapper>
